@@ -1,0 +1,123 @@
+#ex15.lib
+
+record_prompt_shopt()
+{
+	shopt -s nocasematch
+	CONT="true"
+	while [ "$CONT" == "true" ]
+	do
+		echo "Would you like to enter a new record?"
+		read INPUT
+		if [ "${INPUT}" == 'y' ]
+		then
+			add_record 
+		elif [ "${INPUT}" == 'n' ]
+		then
+			CONT="false"
+			echo "Terminating.."
+		else
+			echo "Please enter a valid response"
+		fi
+	done
+}
+
+record_prompt_tr()
+{
+	CONT="true"
+	while [ "$CONT" == "true" ]
+	do
+		echo "Would you like to enter a new record?"
+		read INPUT
+		INPUT=`echo "$INPUT" | tr [:upper:] [:lower:]`
+		if [ "$INPUT" == 'y' ]
+		then
+			add_record
+		elif [ "$INPUT" == 'y' ]
+		then
+			echo "Terminating..."
+			CONT="false"
+		else
+			echo "Please enter a valid response"
+		fi
+	done
+}
+
+record_prompt_commas()
+{
+	CONT="true"
+	while [ "$CONT" == "true" ]
+	do
+		echo "Would you like to enter a new record?"
+		read INPUT
+		if [ "$INPUT,," == 'y' ]
+		then
+			add_record
+		elif [ "$INPUT,," == 'n' ]
+		then
+			CONT="false"
+			echo "Terminating.."
+		else
+			echo "Please enter a valid response"
+		fi
+	done
+}
+
+record_prompt_case()
+{
+	CONT="true"
+	while [ "$CONT" == "true" ]
+	do
+		echo "Would you like to enter a new record?"
+		read INPUT
+		case $INPUT in
+			Y)
+				add_record;;
+			y)
+				add_record;;
+			N)
+				echo "Terminating..."
+				CONT="false"
+				;;
+			n)
+				echo "Terminating..."
+				CONT="false"
+				;;
+			*)
+				echo "Please enter a valid input"
+	done
+}
+
+add_record()
+{
+	while :
+	do
+		echo "Enter forename:"
+		read FORENAME
+		if [ -z "$FORENAME" ]
+			echo "ERROR: Forename cannot be blank"
+		else
+			break
+		fi
+	done
+
+	while :
+	do
+		echo "Enter surname:"
+		read SURNAME
+		if [ -z "$SURNAME" ]
+			echo "ERROR: Surname cannot be blank"
+		else
+			break
+		fi
+	done
+
+	echo "Enter email:"
+	read EMAIL
+
+	echo "Enter phone:"
+	read PHONE
+
+	echo "$FORENAME|$SURNAME|$PHONE|$EMAIL" >> AddressBook.txt
+}
+
+record_prompt_shopt
